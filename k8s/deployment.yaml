@@ -1,0 +1,38 @@
+# Define a versão da API que o Kubernetes deve usar para este recurso
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: conversao-distancia # Nome do Deployment
+spec: 
+  replicas: 3 # Define o número de réplicas do pod que devem ser executadas
+  selector: 
+     matchLabels:
+       app: conversao-distancia # O seletor irá combinar com os pods que têm este rótulo
+  template:
+    metadata:
+       labels:
+         app: conversao-distancia # Rótulo atribuído aos pods criados por este Deployment
+    spec:
+      containers:
+      - name: conversao-distancia # Nome do container
+        image: lucascarneiro88/conversao-distancia:v2 # Imagem Docker que será usada para o container
+        ports: 
+          - containerPort: 5000 # Porta que o container irá expor
+
+---
+
+# Define o Service que irá expor o Deployment
+apiVersion: v1  # Define a versão da API que o Kubernetes deve usar para este recurso
+kind: Service   # Define o tipo do recurso que está sendo criado, neste caso, um Service
+metadata:
+    name: conversao-distancia # Nome do Service
+spec:
+    selector: # Define quais pods o Service deve direcionar o tráfego
+      app: conversao-distancia # O seletor irá combinar com os pods que têm este rótulo
+    ports:
+    - port: 80 # Porta que o Service irá expor externamente
+      targetPort: 5000 # Porta que o container irá escutar
+      nodePort: 30000 #força a utilizar a porta que eu especifiquei se não ele abre uma aleatória
+
+      # Expondo o serviço como um NodePort para permitir acesso externo em uma porta específica
+    type: NodePort
