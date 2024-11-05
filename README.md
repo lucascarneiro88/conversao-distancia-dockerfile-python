@@ -63,3 +63,6 @@
 
     kubectl rollout undo deployment conversao-distancia && watch 'kubectl get pod'
     Reverte o Deployment conversao-distancia para a versão anterior e observa a lista de pods em execução em tempo real.
+
+
+    Quando menciona aquinome nos comandos, esta referindo a um exemplo de um nome que  pode usar como prefixo para suas imagens Docker e para o cluster K3d. No caso do comando k3d cluster create, aquinome é o nome que você escolheu para o seu cluster. Para o comando docker build, aquinome é um exemplo do nome de usuário ou organização do Docker Hub, onde você armazenará suas imagens.
